@@ -1,10 +1,10 @@
 import streamlit as st
-from streamlit_chat import message
+from streamlit_float import *
 
-def api_calling(prompt):
-	
-	message = "R E S P O N S E"
-	return message
+float_init(theme=True, include_unstable_primary=False)
+
+def chat_content():
+    st.session_state['contents'].append(st.session_state.content)
 
 if 'contents' not in st.session_state:
     st.session_state['contents'] = []
@@ -12,12 +12,11 @@ if 'contents' not in st.session_state:
 else:
     border = True
 
-
 col1, col2 = st.columns([1,2])
 with col1:
     with st.container(border=True):
         st.write('Hello streamlit')
-        
+
 with col2:
     with st.container(border=border):
         with st.container():
