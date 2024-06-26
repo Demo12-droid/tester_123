@@ -45,8 +45,3 @@ with col2:
     st.write("Chat Input:")
     content = st.chat_input(key='content', on_submit=chat_content)
 
-    # Floating button setup
-    button_b_pos = "1rem"
-    button_css = float_css_helper(width="3rem", bottom=button_b_pos, right="1rem", transition=0.2)
-    float_parent(css=button_css)
-
