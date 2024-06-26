@@ -23,7 +23,7 @@ if 'user_input' not in st.session_state:
     st.session_state['openai_response'] = []
 
 # Layout setup using columns
-col1, col2 = st.columns([1, 2])
+col1, col2 = st.columns([1, 2, 3])
 
 # Left column setup
 with col1:
