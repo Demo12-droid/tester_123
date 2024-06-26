@@ -64,5 +64,5 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Display input box with sticky style
-st.text_input("Write here", key="input", class="sticky-input")
+# Display input box with sticky style using HTML
+st.markdown('<input class="sticky-input" placeholder="Write here" id="input">', unsafe_allow_html=True)
