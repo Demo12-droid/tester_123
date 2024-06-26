@@ -1,41 +1,54 @@
 import streamlit as st
 from streamlit_float import *
 
+# Initialize float layout
 float_init(theme=True, include_unstable_primary=False)
 
+# Mock API function for demo
 def api_calling(prompt):
-    message="R E S P O N S E"
-    return message
+    return "R E S P O N S E"  # Replace with actual API call
 
+# Function to handle chat input submission
+def chat_content(content):
+    user_input = content
+    openai_response = api_calling(user_input)
 
-def chat_content():
-    st.session_state['contents'].append(st.session_state.content)
+    # Append user input and OpenAI response to session state
+    st.session_state['user_input'].append(user_input)
+    st.session_state['openai_response'].append(openai_response)
 
-if 'contents' not in st.session_state:
-    st.session_state['contents'] = []
-    border = False
-else:
-    border = True
+# Initialize session state if not already done
+if 'user_input' not in st.session_state:
+    st.session_state['user_input'] = []
+    st.session_state['openai_response'] = []
 
-col1, col2 = st.columns([1,2])
+# Layout setup using columns
+col1, col2 = st.columns([1, 2])
+
+# Left column setup
 with col1:
-    with st.container(border=True):
-        st.write('Hello streamlit')
+    st.title("ChatGPT ChatBot With Streamlit and OpenAI")
+    st.image("your_logo.png")  # Replace with your logo or image
+    st.write("Hello Streamlit!")
 
+# Right column setup
 with col2:
-    with st.container(border=border):
-        with st.container():
-            st.title("ChatGPT ChatBot With Streamlit and OpenAI")
-            st.chat_input(key='content', on_submit=chat_content) 
-            button_b_pos = "0rem"
-            button_css = float_css_helper(width="2.2rem", bottom=button_b_pos, transition=0)
-            float_parent(css=button_css)
+    with st.container():
+        # Chat input section
+        st.write("Chat Input:")
+        content = st.chat_input(key='content', on_submit=chat_content)
+
+        # Floating button setup
+        button_b_pos = "1rem"
+        button_css = float_css_helper(width="3rem", bottom=button_b_pos, right="1rem", transition=0.2)
+        float_parent(css=button_css)
+
+        # Display chat history in reverse order
         if st.session_state['user_input']:
-            for i in range(len(st.session_state['user_input']) - 1, -1, -1):
-                # This function displays user input
-                message(st.session_state["user_input"][i], 
-                    key=str(i),avatar_style="icons")
-                # This function displays OpenAI response
-                message(st.session_state['openai_response'][i], 
-                    avatar_style="miniavs",is_user=True,
-                    key=str(i) + 'data_by_user')
+            st.write("Chat History:")
+            for i in reversed(range(len(st.session_state['user_input']))):
+                # Display user input
+                st.text(f"User: {st.session_state['user_input'][i]}")
+                # Display OpenAI response
+                st.text(f"ChatBot: {st.session_state['openai_response'][i]}")
+
