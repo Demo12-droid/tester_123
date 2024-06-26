@@ -27,7 +27,7 @@ col1, col2 = st.columns([1, 2])
 
 # Left column setup
 with col1:
-    st.title("ChatGPT ChatBot With Streamlit and OpenAI")
+    st.text("ChatGPT ChatBot With Streamlit and OpenAI")
     st.write("Hello Streamlit!")
 
 # Right column setup
