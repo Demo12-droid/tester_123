@@ -11,7 +11,7 @@ if 'user_input' not in st.session_state:
 	st.session_state['user_input'] = []
 
 if 'response' not in st.session_state:
-	st.session_state['openai_response'] = []
+	st.session_state['response'] = []
 
 def get_text():
 	input_text = st.text_input("write here", key="input")
