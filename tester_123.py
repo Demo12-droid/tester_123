@@ -47,22 +47,6 @@ if st.session_state['user_input']:
         message(st.session_state["user_input"][i], 
                 key=str(i), avatar_style="icons")
 
-# Custom CSS to stick input box to bottom of page
-st.markdown(
-    """
-    <style>
-    .sticky-input {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        padding: 10px;
-        background-color: #f0f0f0; /* Adjust background color as needed */
-        border-top: 1px solid #ccc; /* Optional: Add border to separate input box */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 # Display input box with sticky style using HTML
 st.markdown('<input class="sticky-input" placeholder="Write here" id="input">', unsafe_allow_html=True)
