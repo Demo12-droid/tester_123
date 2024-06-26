@@ -28,7 +28,6 @@ col1, col2 = st.columns([1, 2])
 # Left column setup
 with col1:
     st.title("ChatGPT ChatBot With Streamlit and OpenAI")
-    st.image("your_logo.png")  # Replace with your logo or image
     st.write("Hello Streamlit!")
 
 # Right column setup
