@@ -32,14 +32,14 @@ with col1:
 
 # Right column setup
 with col2:
-    with st.sidebar:
-        st.title("Chat History:")
-        if st.session_state['user_input']:
-            for i in reversed(range(len(st.session_state['user_input']))):
-                # Display user input
-                st.text(f"User: {st.session_state['user_input'][i]}")
-                # Display OpenAI response
-                st.text(f"ChatBot: {st.session_state['openai_response'][i]}")
+    #with st.sidebar:
+    st.title("Chat History:")
+    if st.session_state['user_input']:
+        for i in reversed(range(len(st.session_state['user_input']))):
+            # Display user input
+            st.text(f"User: {st.session_state['user_input'][i]}")
+            # Display OpenAI response
+            st.text(f"ChatBot: {st.session_state['openai_response'][i]}")
 
     # Chat input section
     st.write("Chat Input:")
