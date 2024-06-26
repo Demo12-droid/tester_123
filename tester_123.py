@@ -6,35 +6,26 @@ def api_calling(prompt):
 	message = "R E S P O N S E"
 	return message
 
-st.title("ChatGPT ChatBot With Streamlit and OpenAI")
-if 'user_input' not in st.session_state:
-	st.session_state['user_input'] = []
+if 'contents' not in st.session_state:
+    st.session_state['contents'] = []
+    border = False
+else:
+    border = True
 
-if 'response' not in st.session_state:
-	st.session_state['response'] = []
 
-def get_text():
-	input_text = st.text_input("write here", key="input")
-	return input_text
-
-user_input = get_text()
-
-if user_input:
-	output = api_calling(user_input)
-	output = output.lstrip("\n")
-
-	# Store the output
-	st.session_state.response.append(user_input)
-	st.session_state.user_input.append(output)
-
-message_history = st.empty()
-
-if st.session_state['user_input']:
-	for i in range(0 , len(st.session_state['user_input']) - 1, 1):
-		# This function displays OpenAI response
-		message(st.session_state['response'][i], 
-				avatar_style="miniavs",is_user=True,
-				key=str(i) + 'data_by_user')
-		# This function displays user input
-		message(st.session_state["user_input"][i], 
-				key=str(i),avatar_style="icons")
+col1, col2 = st.columns([1,2])
+with col1:
+    with st.container(border=True):
+        st.write('Hello streamlit')
+        
+with col2:
+    with st.container(border=border):
+        with st.container():
+            st.chat_input(key='content', on_submit=chat_content) 
+            button_b_pos = "0rem"
+            button_css = float_css_helper(width="2.2rem", bottom=button_b_pos, transition=0)
+            float_parent(css=button_css)
+        if content:=st.session_state.content:
+            with st.chat_message(name='robot'):
+                for c in st.session_state.contents:
+                    st.write(c)
