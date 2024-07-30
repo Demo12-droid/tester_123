@@ -11,6 +11,72 @@ def get_response(user_input,show_plot,toggle_option):
 def display_plot(plot_base64):
     st.write(plot_base64)
 
+users_db = {
+    "user1": {"password": "pass1", "session_ids": ["session1", "session2"]},
+    "user2": {"password": "pass2", "session_ids": []},
+}
+
+def authenticate(username, password):
+    user = users_db.get(username)
+    if user and user["password"] == password:
+        return True
+    return False
+
+# Function to retrieve session IDs
+def get_session_ids(username):
+    return users_db.get(username, {}).get("session_ids", [])
+
+# Function to generate a new session ID
+def generate_new_session_id(username):
+    new_session_id = str(uuid.uuid4())
+    users_db[username]["session_ids"].append(new_session_id)
+    return new_session_id
+       
+
+# UI for login
+st.title("Login")
+
+# Input fields for username and password
+username = st.text_input("Username")
+password = st.text_input("Password", type="password")
+
+# Authenticate user
+if st.button("Login"):
+    if authenticate(username, password):
+        st.success(f"Welcome, {username}!")
+        
+        # Retrieve previous session IDs
+        session_ids = get_session_ids(username)
+        if session_ids:
+            # User has previous sessions, show options
+            st.write("Select a session or create a new one:")
+            session_option = st.radio(
+                "Choose an option:",
+                options=["Use Previous Session", "Create New Session"],
+            )
+            
+            if session_option == "Use Previous Session":
+                selected_session_id = st.selectbox("Select a session ID:", session_ids)
+                if selected_session_id:
+                    st.session_state.session_id = selected_session_id
+                    st.write(f"Selected Session ID: {selected_session_id}")
+            
+            if session_option == "Create New Session":
+                if st.button("Generate New Session ID"):
+                    new_session_id = generate_new_session_id(username)
+                    st.session_state.session_id = new_session_id
+                    st.write(f"New Session ID: {new_session_id}")
+        
+        else:
+            # No previous sessions, only option is to create a new one
+            st.write("No previous sessions found. Creating a new session...")
+            new_session_id = generate_new_session_id(username)
+            st.session_state.session_id = new_session_id
+            st.write(f"New Session ID: {new_session_id}")
+    else:
+        st.error("Invalid username or password")
+
+
 # Streamlit app
 st.title("Chanakya")
 
