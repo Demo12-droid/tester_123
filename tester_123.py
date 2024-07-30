@@ -42,6 +42,8 @@ if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 if 'username' not in st.session_state:
     st.session_state.username = ""
+if 'show_message' not in st.session_state:
+    st.session_state.show_message = False
 
 # UI for login
 if not st.session_state.logged_in:
@@ -54,7 +56,6 @@ if not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.username = username
             st.success(f"Welcome, {username}!")
-            st.experimental_rerun() 
         else:
             st.error("Invalid username or password")
 else:
@@ -64,74 +65,46 @@ else:
 
 
 
-# Retrieve previous session IDs
-session_ids = get_session_ids(st.session_state.username)
-if st.session_state.logged_in and session_ids:
-	st.sidebar.title("Options")
-	st.sidebar.header("select session")
-	array=[]
-	array.append("create new session")
-	for session_id in session_ids:
-		array.append(session_id)
- 
-	# User has previous sessions, show options
-	session_option = st.sidebar.radio("choose an option",array)
-
-	if session_option == "Use Previous Session":
-		selected_session_id = st.selectbox("Select a session ID:", session_ids)
-	if selected_session_id:
-		st.session_state.session_id = selected_session_id
-		st.write(f"Selected Session ID: {selected_session_id}")
-
-	if session_option == "Create New Session":
-		if st.button("Generate New Session ID"):
-			new_session_id = generate_new_session_id(st.session_state.username)
-			st.session_state.session_id = new_session_id
-			st.write(f"New Session ID: {new_session_id}")
-
-else:
-	if st.session_state.logged_in:
-		if 'show_message' not in st.session_state:
-			st.session_state.show_message = True
+if st.session_state.logged_in:
+	st.title("Chanakya")
 	
-		# Display the message
+	# Sidebar
+	st.sidebar.title("Options")
+	st.sidebar.header("Database options")
+	toggle_option = st.sidebar.selectbox('Choose a Database:', ['congestion', 'toll_plaza_data'])
+	
+	st.sidebar.header("Display Options")
+	show_plot = st.sidebar.checkbox("Plot", value=True)
+	
+	# Retrieve previous session IDs
+	session_ids = get_session_ids(st.session_state.username)
+    
+	if session_ids:
+		st.sidebar.header("Select Session")
+		array = ["Create New Session"] + session_ids
+		session_option = st.sidebar.radio("Choose an option", array)
+
+	        if session_option == "Create New Session":
+			if st.sidebar.button("Generate New Session ID"):
+				new_session_id = generate_new_session_id(st.session_state.username)
+				st.session_state.session_id = new_session_id
+				st.write(f"New Session ID: {new_session_id}")
+	        else:
+			if session_option in session_ids:
+				st.session_state.session_id = session_option
+				st.write(f"Selected Session ID: {session_option}")
+	else:
 		if st.session_state.show_message:
-			
 			st.write("No previous sessions found. Creating a new session...")
 			new_session_id = generate_new_session_id(st.session_state.username)
 			st.session_state.session_id = new_session_id
-			st.write(f"New Session ID: {new_session_id}")	
-	
-		
-		# Wait for 10 seconds
-		time.sleep(10)
-		
-		# Remove the message by updating the session state
-		st.session_state.show_message = False
-		st.experimental_rerun() 
-		
-	
+			st.write(f"New Session ID: {new_session_id}")
+			# Hide the message after displaying
+			st.session_state.show_message = False
 
-if st.session_state.logged_in:
-	# Streamlit app
-	st.title("Chanakya")
-	
-	
-	st.sidebar.title("Options")
-	
-	st.sidebar.header("Database options")
-	toggle_option = st.sidebar.selectbox(
-	    'Choose a Database:',
-	    ['congestion', 'toll_plaza_data']
-	)
-	
-	st.sidebar.header("Display Options")
-	show_plot = st.sidebar.checkbox("Plot",value=True)
-	
 	if st.sidebar.button("Logout"):
-	    logout()
-	    st.experimental_rerun() 
-	
+		logout()
+    
 	user_input = st.chat_input("Ask a question...")
 	
 	if 'messages' not in st.session_state:
@@ -143,15 +116,15 @@ if st.session_state.logged_in:
 	
 	    # df = df.to_dict(orient='records') if isinstance(df, pd.DataFrame) else df
 	    st.session_state.messages.append({
-	        "role": "assistant",
-	        "content": {
-	            "user_input": user_input,
-	            "sql": sql,
-	            "df": df,
-	            "text_summary": text_summary,
-	            "plot": plot,
-	            "time_taken": time_taken 
-	        }
+		"role": "assistant",
+		"content": {
+		    "user_input": user_input,
+		    "sql": sql,
+		    "df": df,
+		    "text_summary": text_summary,
+		    "plot": plot,
+		    "time_taken": time_taken 
+		}
 	    })
 	
 	for entry in st.session_state.messages:
@@ -159,27 +132,27 @@ if st.session_state.logged_in:
 	    content = entry.get('content', {})
 	
 	    if role == 'user':
-	        with st.chat_message("User"):
-	            st.write(content)
+		with st.chat_message("User"):
+		    st.write(content)
 	    elif role == 'assistant':
-	        sql_query = content.get('sql', None)
-	        text_summary = content.get('text_summary', None)
-	        plot = content.get('plot', None)
-	        df = content.get('df', None) 
-	        time_taken = content.get('time_taken')
+		sql_query = content.get('sql', None)
+		text_summary = content.get('text_summary', None)
+		plot = content.get('plot', None)
+		df = content.get('df', None) 
+		time_taken = content.get('time_taken')
 	
-	        if sql_query is not None and df is None:
-	            with st.chat_message("assistant"):
-	                st.write("No data is available for the given question.If data is available, please retry")
-	        else:            
-	            with st.chat_message("assistant"):
-	                if df:
-	                    st.dataframe(df)
-	                if text_summary:
-	                    st.write(text_summary)
-	                if plot:
-	                    try:
-	                        display_plot(plot)
-	                    except:
-	                        components.html(plot,height=390,scrolling=True)
-	                st.write(f"<b>Time taken: {time_taken:.4f} seconds</b>", unsafe_allow_html=True)
+		if sql_query is not None and df is None:
+		    with st.chat_message("assistant"):
+			st.write("No data is available for the given question.If data is available, please retry")
+		else:            
+		    with st.chat_message("assistant"):
+			if df:
+			    st.dataframe(df)
+			if text_summary:
+			    st.write(text_summary)
+			if plot:
+			    try:
+				display_plot(plot)
+			    except:
+				components.html(plot,height=390,scrolling=True)
+			st.write(f"<b>Time taken: {time_taken:.4f} seconds</b>", unsafe_allow_html=True)
