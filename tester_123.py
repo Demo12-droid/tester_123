@@ -53,7 +53,7 @@ while not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.username = username
             st.success(f"Welcome, {username}!")
-            break
+            st.experimental_rerun() 
         else:
             st.error("Invalid username or password")
             break
