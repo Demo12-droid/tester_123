@@ -1,13 +1,6 @@
 import streamlit as st
 import requests
 import json
-import base64
-from io import BytesIO
-from PIL import Image
-# from chatbot_backend.chat.main import run_code
-import pandas as pd
-import time
-from streamlit_folium import folium_static
 from streamlit_float import *
 
 float_init(theme=True, include_unstable_primary=False)
