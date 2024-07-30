@@ -43,7 +43,7 @@ if 'username' not in st.session_state:
     st.session_state.username = ""
 
 # UI for login
-if not st.session_state.logged_in:
+while not st.session_state.logged_in:
     st.title("Login")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
@@ -53,8 +53,10 @@ if not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.username = username
             st.success(f"Welcome, {username}!")
+            break
         else:
             st.error("Invalid username or password")
+            break
 else:
     st.write(f"Welcome, {st.session_state.username}!")
 
