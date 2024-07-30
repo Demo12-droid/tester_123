@@ -64,10 +64,7 @@ if session_ids:
  st.sidebar.header("select session")      
         
  # User has previous sessions, show options
- session_option = st.sidebar.radio(
-     "Choose an option:",
-     options=["Create New Session",sessions_ids],
- )
+ session_option = st.sidebar.radio("Create New Session",sessions_ids)
 
  if session_option == "Use Previous Session":
      selected_session_id = st.selectbox("Select a session ID:", session_ids)
