@@ -9,12 +9,12 @@ float_init(theme=True, include_unstable_primary=False)
 def get_response(user_input,show_plot,toggle_option):
        return "RESPONSE", "RESPONSE", "RESPONSE", None, "RESPONSE"
 
-def get_history(username,session):
+def get_history(username,session_id):
     url = 'http://molly-grateful-hippo.ngrok-free.app/chat/session_info/'
     headers = {'Content-Type': 'application/json'}
     payload = {
-        'username': 'test3',
-        'session_id': 'test'
+        'username': username,
+        'session_id': session_id,
     }
 
     response = requests.post(url, headers=headers, data=json.dumps(payload))
