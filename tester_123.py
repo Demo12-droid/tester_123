@@ -43,7 +43,7 @@ if 'logged_in' not in st.session_state:
 if 'username' not in st.session_state:
 	st.session_state.username = ""
 if 'show_message' not in st.session_state:
-	st.session_state.show_message = False
+	st.session_state.show_message = True
 
 # UI for login
 if not st.session_state.logged_in:
@@ -52,10 +52,12 @@ if not st.session_state.logged_in:
 	password = st.text_input("Password", type="password")
 	if st.button("Login"):	
 		if authenticate(username, password):
-			st.session_state.logged_in = True
-			st.session_state.username = username
-			st.success(f"Welcome, {username}!")
-			st.session_state.show_message = False  # Ensure the message is hidden after login
+			if st.session_state.show_message == True:
+				st.session_state.logged_in = True
+				st.session_state.username = username
+				st.success(f"Welcome, {username}!")
+				time.sleep(5)
+				st.session_state.show_message = False  # Ensure the message is hidden after login
 		else:
 			st.error("Invalid username or password")
 else:
