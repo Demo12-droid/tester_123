@@ -29,7 +29,7 @@ def get_session_ids(username):
 # Function to generate a new session ID
 def generate_new_session_id(username):
     new_session_id = str(uuid.uuid4())
-    users_db[username]["session_ids"].append(new_session_id)
+    users_db["username"]["session_ids"].append(new_session_id)
     return new_session_id
 
 def logout():
