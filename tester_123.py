@@ -65,7 +65,7 @@ else:
 
 # Retrieve previous session IDs
 session_ids = get_session_ids(st.session_state.username)
-if session_ids:
+if st.session_state.logged_in and session_ids:
 	st.sidebar.title("Options")
 	st.sidebar.header("select session")
 	array=[]
@@ -89,17 +89,18 @@ if session_ids:
 			st.write(f"New Session ID: {new_session_id}")
 
 else:
-	if 'show_message' not in st.session_state:
-		st.session_state.show_message = True
-
-	# Display the message
-	if st.session_state.show_message:
-		
-		st.write("No previous sessions found. Creating a new session...")
-		new_session_id = generate_new_session_id(st.session_state.username)
-		st.session_state.session_id = new_session_id
-		st.write(f"New Session ID: {new_session_id}")	
-
+	if st.session_state.logged_in:
+		if 'show_message' not in st.session_state:
+			st.session_state.show_message = True
+	
+		# Display the message
+		if st.session_state.show_message:
+			
+			st.write("No previous sessions found. Creating a new session...")
+			new_session_id = generate_new_session_id(st.session_state.username)
+			st.session_state.session_id = new_session_id
+			st.write(f"New Session ID: {new_session_id}")	
+	
 		
 		# Wait for 10 seconds
 		time.sleep(10)
