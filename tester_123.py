@@ -50,13 +50,14 @@ if not st.session_state.logged_in:
 	st.title("Login")
 	username = st.text_input("Username")
 	password = st.text_input("Password", type="password")
-	if authenticate(username, password):
-		st.session_state.logged_in = True
-		st.session_state.username = username
-		st.success(f"Welcome, {username}!")
-		st.session_state.show_message = False  # Ensure the message is hidden after login
-	else:
-		st.error("Invalid username or password")
+	if st.button("Login"):	
+		if authenticate(username, password):
+			st.session_state.logged_in = True
+			st.session_state.username = username
+			st.success(f"Welcome, {username}!")
+			st.session_state.show_message = False  # Ensure the message is hidden after login
+		else:
+			st.error("Invalid username or password")
 else:
 	st.write(f"Welcome, {st.session_state.username}!")
 
