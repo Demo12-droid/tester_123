@@ -123,7 +123,7 @@ if st.session_state.logged_in:
 	
 	
 	st.session_state.messages = get_history(st.session_state.username,session_option)
-	st.write(st.session_state.messages)
+	# st.write(st.session_state.messages)
 	
 	if 'messages' not in st.session_state:
 	    st.session_state.messages = []
