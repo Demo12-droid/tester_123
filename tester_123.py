@@ -83,8 +83,8 @@ if st.session_state.logged_in:
 		st.sidebar.header("Select Session")
 		array = ["Create New Session"] + session_ids
 		session_option = st.sidebar.radio("Choose an option", array)
-
-	        if session_option == "Create New Session":
+		
+		if session_option == "Create New Session":
 			if st.sidebar.button("Generate New Session ID"):
 				new_session_id = generate_new_session_id(st.session_state.username)
 				st.session_state.session_id = new_session_id
