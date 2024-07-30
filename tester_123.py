@@ -68,7 +68,7 @@ if session_ids:
     array.append(session_id)
  
  # User has previous sessions, show options
- session_option = st.sidebar.radio(options=array)
+ session_option = st.sidebar.radio("choose an option",array)
 
  if session_option == "Use Previous Session":
      selected_session_id = st.selectbox("Select a session ID:", session_ids)
