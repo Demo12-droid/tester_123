@@ -31,7 +31,11 @@ def generate_new_session_id(username):
     new_session_id = str(uuid.uuid4())
     users_db[username]["session_ids"].append(new_session_id)
     return new_session_id
-       
+
+def logout():
+    st.session_state.logged_in = False
+    st.session_state.selected_option = None
+
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 if 'username' not in st.session_state:
@@ -105,8 +109,9 @@ toggle_option = st.sidebar.selectbox(
 st.sidebar.header("Display Options")
 show_plot = st.sidebar.checkbox("Plot",value=True)
 
-
-
+ if st.sidebar.button("Logout"):
+    logout()
+    st.experimental_rerun() 
 
 user_input = st.chat_input("Ask a question...")
 
