@@ -128,31 +128,31 @@ if st.session_state.logged_in:
 	    })
 	
 	for entry in st.session_state.messages:
-	    role = entry.get('role', 'unknown role')
-	    content = entry.get('content', {})
-	
-	    if role == 'user':
-		with st.chat_message("User"):
-		    st.write(content)
-	    elif role == 'assistant':
-		sql_query = content.get('sql', None)
-		text_summary = content.get('text_summary', None)
-		plot = content.get('plot', None)
-		df = content.get('df', None) 
-		time_taken = content.get('time_taken')
+		role = entry.get('role', 'unknown role')
+		content = entry.get('content', {})
+		
+		if role == 'user':
+			with st.chat_message("User"):
+				st.write(content)
+		elif role == 'assistant':
+			sql_query = content.get('sql', None)
+			text_summary = content.get('text_summary', None)
+			plot = content.get('plot', None)
+			df = content.get('df', None) 
+			time_taken = content.get('time_taken')
 	
 		if sql_query is not None and df is None:
-		    with st.chat_message("assistant"):
-			st.write("No data is available for the given question.If data is available, please retry")
+			with st.chat_message("assistant"):
+				st.write("No data is available for the given question.If data is available, please retry")
 		else:            
-		    with st.chat_message("assistant"):
-			if df:
-			    st.dataframe(df)
-			if text_summary:
-			    st.write(text_summary)
-			if plot:
-			    try:
-				display_plot(plot)
-			    except:
-				components.html(plot,height=390,scrolling=True)
-			st.write(f"<b>Time taken: {time_taken:.4f} seconds</b>", unsafe_allow_html=True)
+			with st.chat_message("assistant"):
+				if df:
+					st.dataframe(df)
+				if text_summary:
+					st.write(text_summary)
+				if plot:
+					try:
+						display_plot(plot)
+					except:
+						components.html(plot,height=390,scrolling=True)
+				st.write(f"<b>Time taken: {time_taken:.4f} seconds</b>", unsafe_allow_html=True)
