@@ -56,7 +56,6 @@ if not st.session_state.logged_in:
             st.experimental_rerun() 
         else:
             st.error("Invalid username or password")
-            break
 else:
     st.write(f"Welcome, {st.session_state.username}!")
 
