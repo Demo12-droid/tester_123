@@ -21,7 +21,7 @@ def get_history(username,session):
     
     if response.status_code == 200:
        data = response.json().get('data', {})
-       return data.get(data.get('data', 'No_recent_session_history'))
+       return data.get('data', 'No_recent_session_history')
     else:
        return None
 
