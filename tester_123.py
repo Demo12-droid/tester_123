@@ -18,46 +18,46 @@ users_db = {
 }
 
 def authenticate(username, password):
-    user = users_db.get(username)
-    if user and user["password"] == password:
-        return True
-    return False
+	user = users_db.get(username)
+	if user and user["password"] == password:
+		return True
+	return False
 
 # Function to retrieve session IDs
 def get_session_ids(username):
-    return users_db.get(username, {}).get("session_ids", [])
+	return users_db.get(username, {}).get("session_ids", [])
 
 # Function to generate a new session ID
 def generate_new_session_id(username):
-    new_session_id = str(uuid.uuid4())
-    user = users_db.get(username)
-    user["session_ids"].append(new_session_id)
-    return new_session_id
+	new_session_id = str(uuid.uuid4())
+	user = users_db.get(username)
+	user["session_ids"].append(new_session_id)
+	return new_session_id
 
 def logout():
-    st.session_state.logged_in = False
-    st.session_state.selected_option = None
+	st.session_state.logged_in = False
+	st.session_state.selected_option = None
 
 if 'logged_in' not in st.session_state:
-    st.session_state.logged_in = False
+	st.session_state.logged_in = False
 if 'username' not in st.session_state:
-    st.session_state.username = ""
+	st.session_state.username = ""
 if 'show_message' not in st.session_state:
-    st.session_state.show_message = False
+	st.session_state.show_message = False
 
 # UI for login
 if not st.session_state.logged_in:
-    st.title("Login")
-    username = st.text_input("Username")
-        if authenticate(username, password):
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.success(f"Welcome, {username}!")
-            st.session_state.show_message = False  # Ensure the message is hidden after login
-        else:
-            st.error("Invalid username or password")
+	st.title("Login")
+	username = st.text_input("Username")
+	if authenticate(username, password):
+		st.session_state.logged_in = True
+		st.session_state.username = username
+		st.success(f"Welcome, {username}!")
+		st.session_state.show_message = False  # Ensure the message is hidden after login
+	else:
+		st.error("Invalid username or password")
 else:
-    st.write(f"Welcome, {st.session_state.username}!")
+	st.write(f"Welcome, {st.session_state.username}!")
 
 
 
