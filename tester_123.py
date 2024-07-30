@@ -122,7 +122,7 @@ if st.session_state.logged_in:
 	user_input = st.chat_input("Ask a question...")
 	
 	
-	# st.session_state = get_history(st.session_state.username,session_option)
+	st.session_state.messages = get_history(st.session_state.username,session_option)
 	
 	
 	if 'messages' not in st.session_state:
