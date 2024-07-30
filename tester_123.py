@@ -66,34 +66,49 @@ else:
 # Retrieve previous session IDs
 session_ids = get_session_ids(st.session_state.username)
 if session_ids:
- st.sidebar.title("Options")
- st.sidebar.header("select session")
- array=[]
- array.append("create new session")
- for session_id in session_ids:
-    array.append(session_id)
+	st.sidebar.title("Options")
+	st.sidebar.header("select session")
+	array=[]
+	array.append("create new session")
+	for session_id in session_ids:
+		array.append(session_id)
  
- # User has previous sessions, show options
- session_option = st.sidebar.radio("choose an option",array)
+	# User has previous sessions, show options
+	session_option = st.sidebar.radio("choose an option",array)
 
- if session_option == "Use Previous Session":
-     selected_session_id = st.selectbox("Select a session ID:", session_ids)
-     if selected_session_id:
-         st.session_state.session_id = selected_session_id
-         st.write(f"Selected Session ID: {selected_session_id}")
+	if session_option == "Use Previous Session":
+		selected_session_id = st.selectbox("Select a session ID:", session_ids)
+	if selected_session_id:
+		st.session_state.session_id = selected_session_id
+		st.write(f"Selected Session ID: {selected_session_id}")
 
- if session_option == "Create New Session":
-     if st.button("Generate New Session ID"):
-         new_session_id = generate_new_session_id(st.session_state.username)
-         st.session_state.session_id = new_session_id
-         st.write(f"New Session ID: {new_session_id}")
+	if session_option == "Create New Session":
+		if st.button("Generate New Session ID"):
+			new_session_id = generate_new_session_id(st.session_state.username)
+			st.session_state.session_id = new_session_id
+			st.write(f"New Session ID: {new_session_id}")
 
 else:
- # No previous sessions, only option is to create a new one
- st.write("No previous sessions found. Creating a new session...")
- new_session_id = generate_new_session_id(st.session_state.username)
- st.session_state.session_id = new_session_id
- st.write(f"New Session ID: {new_session_id}")
+	if 'show_message' not in st.session_state:
+		st.session_state.show_message = True
+
+	# Display the message
+	if st.session_state.show_message:
+		
+		st.write("No previous sessions found. Creating a new session...")
+		new_session_id = generate_new_session_id(st.session_state.username)
+		st.session_state.session_id = new_session_id
+		st.write(f"New Session ID: {new_session_id}")	
+
+		
+		# Wait for 10 seconds
+		time.sleep(10)
+		
+		# Remove the message by updating the session state
+		st.session_state.show_message = False
+		st.experimental_rerun() 
+		
+	
 
 
 # Streamlit app
