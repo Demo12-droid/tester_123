@@ -90,7 +90,7 @@ if st.session_state.logged_in:
 	if session_ids:
 		st.sidebar.header("Select Session")
 		array = ["Create New Session"] + session_ids
-		session_option = st.sidebar.radio("Choose an option", array)
+		session_option = st.sidebar.radio(array,"Choose an option")
 		
 		if session_option == "Create New Session":
 			if st.sidebar.button("Generate New Session ID"):
