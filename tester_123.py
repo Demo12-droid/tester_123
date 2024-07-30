@@ -7,7 +7,7 @@ import time
 float_init(theme=True, include_unstable_primary=False)
 
 def get_response(user_input,show_plot,toggle_option):
-       return "RESPONSE", "RESPONSE", "RESPONSE", None, time_taken
+       return "RESPONSE", "RESPONSE", "RESPONSE", None, "RESPONSE"
     
 def display_plot(plot_base64):
     st.write(plot_base64)
