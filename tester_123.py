@@ -9,10 +9,21 @@ float_init(theme=True, include_unstable_primary=False)
 def get_response(user_input,show_plot,toggle_option):
        return "RESPONSE", "RESPONSE", "RESPONSE", None, "RESPONSE"
 
-def get_hstory(username,session):
-	array=0
-	return array	
+def get_history(username,session):
+    url = 'http://molly-grateful-hippo.ngrok-free.app/chat/session_info/'
+    headers = {'Content-Type': 'application/json'}
+    payload = {
+        'username': 'test3',
+        'session_id': 'test'
+    }
 
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    
+    if response.status_code == 200:
+       data = response.json().get('data', {})
+       return data.get(data.get('data', 'No_recent_session_history')
+    else:
+       return None
 
 	
 def display_plot(plot_base64):
