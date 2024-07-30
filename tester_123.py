@@ -144,7 +144,7 @@ if st.session_state.logged_in:
 			else:            
 				with st.chat_message("assistant"):
 					if df:
-						st.dataframe(df)
+						st.write(df)
 					if text_summary:
 						st.write(text_summary)
 					if plot:
