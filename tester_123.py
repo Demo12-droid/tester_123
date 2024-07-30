@@ -109,7 +109,7 @@ toggle_option = st.sidebar.selectbox(
 st.sidebar.header("Display Options")
 show_plot = st.sidebar.checkbox("Plot",value=True)
 
- if st.sidebar.button("Logout"):
+if st.sidebar.button("Logout"):
     logout()
     st.experimental_rerun() 
 
