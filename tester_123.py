@@ -152,4 +152,4 @@ if st.session_state.logged_in:
 							display_plot(plot)
 						except:
 							components.html(plot,height=390,scrolling=True)
-					st.write(f"<b>Time taken: {time_taken:.4f} seconds</b>", unsafe_allow_html=True)
+					st.write(f"<b>Time taken: {time_taken} seconds</b>", unsafe_allow_html=True)
