@@ -1,50 +1,88 @@
 import streamlit as st
+import requests
+import json
+import base64
+from io import BytesIO
+from PIL import Image
+# from chatbot_backend.chat.main import run_code
+import pandas as pd
+import time
+from streamlit_folium import folium_static
 from streamlit_float import *
 
-# Initialize float layout
 float_init(theme=True, include_unstable_primary=False)
 
-# Mock API function for demo
-def api_calling(prompt):
-    return "R E S P O N S E"  # Replace with actual API call
+def get_response(user_input,show_plot,toggle_option):
+       return "RESPONSE", "RESPONSE", "RESPONSE", None, time_taken
+    
+def display_plot(plot_base64):
+    st.write(plot_base64)
 
-# Function to handle chat input submission
-def chat_content(content):
-    user_input = content
-    openai_response = api_calling(user_input)
+# Streamlit app
+st.title("Chanakya")
 
-    # Append user input and OpenAI response to session state
-    st.session_state['user_input'].append(user_input)
-    st.session_state['openai_response'].append(openai_response)
+user_input = st.chat_input("Ask a question...")
 
-# Initialize session state if not already done
-if 'user_input' not in st.session_state:
-    st.session_state['user_input'] = []
-    st.session_state['openai_response'] = []
+st.sidebar.title("Options")
 
-# Layout setup using columns
-col1, col2 ,col3= st.columns([1, 2, 3])
+st.sidebar.header("Database options")
+toggle_option = st.sidebar.selectbox(
+    'Choose a Database:',
+    ['congestion', 'toll_plaza_data']
+)
 
-# Left column setup
-with col1:
-    st.title("ChatGPT ChatBot With Streamlit and OpenAI")
-    st.write("Hello Streamlit!")
+st.sidebar.header("Display Options")
+show_plot = st.sidebar.checkbox("Plot",value=True)
 
-# Right column setup
-with col2:
-    #with st.sidebar:
-    st.title("Chat History:")
-    if st.session_state['user_input']:
-        for i in reversed(range(len(st.session_state['user_input']))):
-            # Display user input
-            st.text(f"User: {st.session_state['user_input'][i]}")
-            # Display OpenAI response
-            st.text(f"ChatBot: {st.session_state['openai_response'][i]}")
 
-    # Chat input section
-    st.write("Chat Input:")
-    content = st.chat_input(key='content', on_submit=chat_content)
 
-    button_b_pos = "1rem"
-    button_css = float_css_helper(width="3rem", bottom=button_b_pos, transition=0.2)
-    float_parent(css=button_css)
+
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
+if user_input:
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    sql, df, text_summary, plot, time_taken = get_response(user_input,show_plot,toggle_option)
+
+    # df = df.to_dict(orient='records') if isinstance(df, pd.DataFrame) else df
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": {
+            "user_input": user_input,
+            "sql": sql,
+            "df": df,
+            "text_summary": text_summary,
+            "plot": plot,
+            "time_taken": time_taken 
+        }
+    })
+
+for entry in st.session_state.messages:
+    role = entry.get('role', 'unknown role')
+    content = entry.get('content', {})
+
+    if role == 'user':
+        with st.chat_message("User"):
+            st.write(content)
+    elif role == 'assistant':
+        sql_query = content.get('sql', None)
+        text_summary = content.get('text_summary', None)
+        plot = content.get('plot', None)
+        df = content.get('df', None) 
+        time_taken = content.get('time_taken')
+
+        if sql_query is not None and df is None:
+            with st.chat_message("assistant"):
+                st.write("No data is available for the given question.If data is available, please retry")
+        else:            
+            with st.chat_message("assistant"):
+                if df:
+                    st.dataframe(df)
+                if text_summary:
+                    st.write(text_summary)
+                if plot:
+                    try:
+                        display_plot(plot)
+                    except:
+                        components.html(plot,height=390,scrolling=True)
+                st.write(f"<b>Time taken: {time_taken:.4f} seconds</b>", unsafe_allow_html=True)
