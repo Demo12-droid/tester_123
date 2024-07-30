@@ -55,14 +55,10 @@ if not st.session_state.logged_in:
 			if st.session_state.show_message == True:
 				st.session_state.logged_in = True
 				st.session_state.username = username
-				st.success(f"Welcome, {username}!")
 				st.session_state.show_message = False  # Ensure the message is hidden after login
 				st.rerun()
 		else:
 			st.error("Invalid username or password")
-else:
-	st.write(f"Welcome, {st.session_state.username}!")
-
 
 
 if st.session_state.logged_in:
