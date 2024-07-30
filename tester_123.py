@@ -89,7 +89,7 @@ if st.session_state.logged_in:
 				new_session_id = generate_new_session_id(st.session_state.username)
 				st.session_state.session_id = new_session_id
 				st.write(f"New Session ID: {new_session_id}")
-	        else:
+		else:
 			if session_option in session_ids:
 				st.session_state.session_id = session_option
 				st.write(f"Selected Session ID: {session_option}")
