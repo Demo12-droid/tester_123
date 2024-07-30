@@ -57,7 +57,7 @@ if not st.session_state.logged_in:
 				st.session_state.username = username
 				st.success(f"Welcome, {username}!")
 				st.session_state.show_message = False  # Ensure the message is hidden after login
-				st.rerun
+				st.rerun()
 		else:
 			st.error("Invalid username or password")
 else:
