@@ -53,14 +53,20 @@ if not st.session_state.logged_in:
 else:
     st.write(f"Welcome, {st.session_state.username}!")
 
+
+
+
+
 # Retrieve previous session IDs
 session_ids = get_session_ids(st.session_state.username)
 if session_ids:
+ st.sidebar.title("Options")
+ st.sidebar.header("select session")      
+        
  # User has previous sessions, show options
- st.write("Select a session or create a new one:")
- session_option = st.radio(
+ session_option = st.sidebar.radio(
      "Choose an option:",
-     options=["Use Previous Session", "Create New Session"],
+     options=["Create New Session",sessions_ids],
  )
 
  if session_option == "Use Previous Session":
@@ -86,7 +92,6 @@ else:
 # Streamlit app
 st.title("Chanakya")
 
-user_input = st.chat_input("Ask a question...")
 
 st.sidebar.title("Options")
 
@@ -101,6 +106,8 @@ show_plot = st.sidebar.checkbox("Plot",value=True)
 
 
 
+
+user_input = st.chat_input("Ask a question...")
 
 if 'messages' not in st.session_state:
     st.session_state.messages = []
