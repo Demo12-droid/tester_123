@@ -49,13 +49,11 @@ if 'show_message' not in st.session_state:
 if not st.session_state.logged_in:
     st.title("Login")
     username = st.text_input("Username")
-@@ -55,11 +54,10 @@ def logout():
         if authenticate(username, password):
             st.session_state.logged_in = True
             st.session_state.username = username
             st.success(f"Welcome, {username}!")
             st.session_state.show_message = False  # Ensure the message is hidden after login
-            st.experimental_rerun()  # Refresh to remove login form
         else:
             st.error("Invalid username or password")
 else:
