@@ -68,11 +68,6 @@ if st.session_state.logged_in:
 	
 	# Sidebar
 	st.sidebar.title("Options")
-	st.sidebar.header("Database options")
-	toggle_option = st.sidebar.selectbox('Choose a Database:', ['congestion', 'toll_plaza_data'])
-	
-	st.sidebar.header("Display Options")
-	show_plot = st.sidebar.checkbox("Plot", value=True)
 	
 	# Retrieve previous session IDs
 	session_ids = get_session_ids(st.session_state.username)
@@ -99,7 +94,13 @@ if st.session_state.logged_in:
 			st.write(f"New Session ID: {new_session_id}")
 			# Hide the message after displaying
 			st.session_state.show_message = False
-
+			
+	st.sidebar.header("Database options")
+	toggle_option = st.sidebar.selectbox('Choose a Database:', ['congestion', 'toll_plaza_data'])
+	
+	st.sidebar.header("Display Options")
+	show_plot = st.sidebar.checkbox("Plot", value=True)
+	
 	if st.sidebar.button("Logout"):
 		logout()
     
