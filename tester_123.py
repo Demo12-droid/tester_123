@@ -135,7 +135,6 @@ if st.session_state.logged_in:
 		else:
 			if session_option in session_ids:
 				st.session_state.session_id = session_option
-				st.write(f"Selected Session ID: {session_option}")
 	else:
 		if st.session_state.show_message:
 			st.write("No previous sessions found. Creating a new session...")
@@ -160,7 +159,6 @@ if st.session_state.logged_in:
     
 	user_input = st.chat_input("Ask a question...")
 	
-	st.write("session id:", st.session_state.session_id)
 	st.session_state.messages = get_history(st.session_state.username,st.session_state.session_id)
 	# st.write(st.session_state.messages)
 	
