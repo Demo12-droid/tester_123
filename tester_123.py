@@ -44,11 +44,6 @@ def save_session_id(username,session_id):
 def display_plot(plot_base64):
     st.write(plot_base64)
 
-users_db = {
-    "user1": {"password": "pass1", "session_ids": ["session1", "session2"]},
-    "user2": {"password": "pass2", "session_ids": []},
-}
-
 def authenticate(username, password):
 	user = users_db.get(username)
 	if user and user["password"] == password:
