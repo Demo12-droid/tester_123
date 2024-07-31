@@ -70,7 +70,7 @@ def get_session_ids(username):
        return data.get('data', 'No sessions')
     else:
        return None
-	    
+
 # Function to generate a new session ID
 def generate_new_session_id(username):
 	new_session_id = str(uuid.uuid4())
