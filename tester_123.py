@@ -128,6 +128,7 @@ if st.session_state.logged_in:
 				st.session_state.session_id = new_session_id
 				st.write(f"New Session ID: {new_session_id}")
 				message=save_session_id(st.session_state.username,st.session_state.session_id)
+				st.write(message)
 				st.session_state.show_message_for_saved_credentials = False
 				st.rerun()
 		else:
@@ -140,6 +141,10 @@ if st.session_state.logged_in:
 			new_session_id = generate_new_session_id(st.session_state.username)
 			st.session_state.session_id = new_session_id
 			st.write(f"New Session ID: {new_session_id}")
+			message=save_session_id(st.session_state.username,st.session_state.session_id)
+			st.write(message)
+			st.session_state.show_message_for_saved_credentials = False
+			st.rerun()
 			# Hide the message after displaying
 			st.session_state.show_message = False
 			
