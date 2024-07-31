@@ -60,7 +60,7 @@ def get_session_ids(username):
     url = 'http://molly-grateful-hippo.ngrok-free.app/chat/get_session_ids/'
     headers = {'Content-Type': 'application/json'}
     payload = {
-        'username': username,
+        "username": username,
     }
 
     response = requests.post(url, headers=headers, data=json.dumps(payload))
