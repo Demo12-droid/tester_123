@@ -25,6 +25,21 @@ def get_history(username,session_id):
     else:
        return None
 
+def save_session_id(username,session_id):
+    url = 'http://molly-grateful-hippo.ngrok-free.app/chat/save_session_id/'
+    headers = {'Content-Type': 'application/json'}
+    payload = {
+        'username': username,
+        'session_id': session_id,
+    }
+
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+
+    
+    if response.status_code == 200:
+       return "Sucessful"
+    else:
+       return "error saving session credentials"
 	
 def display_plot(plot_base64):
     st.write(plot_base64)
@@ -42,8 +57,20 @@ def authenticate(username, password):
 
 # Function to retrieve session IDs
 def get_session_ids(username):
-	return users_db.get(username, {}).get("session_ids", [])
+    url = 'http://molly-grateful-hippo.ngrok-free.app/chat/get_session_ids/'
+    headers = {'Content-Type': 'application/json'}
+    payload = {
+        'username': username,
+    }
 
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+
+    if response.status_code == 200:
+       data = response.json().get('data', {})
+       return data.get('data', 'No sessions')
+    else:
+       return None
+	    
 # Function to generate a new session ID
 def generate_new_session_id(username):
 	new_session_id = str(uuid.uuid4())
@@ -61,7 +88,9 @@ if 'username' not in st.session_state:
 	st.session_state.username = ""
 if 'show_message' not in st.session_state:
 	st.session_state.show_message = True
-
+if 'show_message_for_saved_credentials' not in st.session_state:
+	st.session_state.show_message_for_saved_credentials = True
+	
 # UI for login
 if not st.session_state.logged_in:
 	st.title("Login")
@@ -94,9 +123,13 @@ if st.session_state.logged_in:
 		
 		if session_option == "Create New Session":
 			if st.sidebar.button("Generate New Session ID"):
+				
 				new_session_id = generate_new_session_id(st.session_state.username)
 				st.session_state.session_id = new_session_id
 				st.write(f"New Session ID: {new_session_id}")
+				message=save_session_id(st.session_state.username,st.session_state.session_id)
+				st.session_state.show_message_for_saved_credentials = False
+				st.rerun()
 		else:
 			if session_option in session_ids:
 				st.session_state.session_id = session_option
@@ -122,7 +155,7 @@ if st.session_state.logged_in:
 	user_input = st.chat_input("Ask a question...")
 	
 	
-	st.session_state.messages = get_history(st.session_state.username,session_option)
+	st.session_state.messages = get_history(st.session_state.username,st.session_state.session_id)
 	# st.write(st.session_state.messages)
 	
 	if 'messages' not in st.session_state:
