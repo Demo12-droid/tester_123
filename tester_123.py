@@ -118,8 +118,8 @@ if st.session_state.logged_in:
 	st.write("session_ids",session_ids)
 	if session_ids:
 		st.sidebar.header("Select Session")
-		array = ["Create New Session"] + session_ids
-		session_option = st.sidebar.radio(array)
+		array = session_ids + ["Create New Session"] 
+		session_option = st.sidebar.radio("Pick a session:",array)
 		
 		if session_option == "Create New Session":
 			if st.sidebar.button("Generate New Session ID"):
