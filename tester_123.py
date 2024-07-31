@@ -61,7 +61,7 @@ def get_session_ids(username):
     headers = {'Content-Type': 'application/json'}
     payload = {
         'username': username,
-	'mode' : 'mode'
+	'mode' : 'mode',
     }
 
     response = requests.post(url, headers=headers, data=json.dumps(payload))
