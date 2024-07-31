@@ -67,7 +67,7 @@ def get_session_ids(username):
 
     if response.status_code == 200:
        data = response.json().get('data', {})
-       return data.get('data', 'No sessions')
+       return data
     else:
        return None
 
