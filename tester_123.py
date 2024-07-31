@@ -156,6 +156,7 @@ if st.session_state.logged_in:
 	
 	if st.sidebar.button("Logout"):
 		logout()
+		st.rerun()
     
 	user_input = st.chat_input("Ask a question...")
 	
