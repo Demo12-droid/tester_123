@@ -117,7 +117,6 @@ if st.session_state.logged_in:
 	
 	# Retrieve previous session IDs
 	session_ids = get_session_ids(st.session_state.username)
-	st.write("session_ids",session_ids)
 	if session_ids:
 		st.sidebar.header("Select Session")
 		array = session_ids + ["Create New Session"] 
