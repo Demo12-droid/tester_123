@@ -115,7 +115,7 @@ if st.session_state.logged_in:
 	
 	# Retrieve previous session IDs
 	session_ids = get_session_ids(st.session_state.username)
-    
+    	st.write(session_ids)
 	if session_ids:
 		st.sidebar.header("Select Session")
 		array = ["Create New Session"] + session_ids
@@ -159,7 +159,7 @@ if st.session_state.logged_in:
     
 	user_input = st.chat_input("Ask a question...")
 	
-	
+	st.write("session id:", st.session_state.session_id)
 	st.session_state.messages = get_history(st.session_state.username,st.session_state.session_id)
 	# st.write(st.session_state.messages)
 	
