@@ -57,6 +57,7 @@ def authenticate(username, password):
 
 # Function to retrieve session IDs
 def get_session_ids(username):
+    st.write("username",username)
     url = 'http://molly-grateful-hippo.ngrok-free.app/chat/get_session_ids/'
     headers = {'Content-Type': 'application/json'}
     payload = {
