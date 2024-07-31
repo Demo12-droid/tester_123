@@ -64,7 +64,7 @@ def get_session_ids(username):
     }
 
     response = requests.post(url, headers=headers, data=json.dumps(payload))
-
+    st.write("sessions",response)
     if response.status_code == 200:
        data = response.json().get('data', {})
        return data.get('data', 'No sessions')
